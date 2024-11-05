@@ -7,6 +7,7 @@
     "preinstall": "npx only-allow pnpm",
     "build": "ng build",
     "build:prod": "pnpm run build -c=production",
+    "build:local": "pnpm run build -c=local",
     "ng": "ng",
     "test": "jest --maxWorkers=50%",
     "start": "ng serve -c=local",

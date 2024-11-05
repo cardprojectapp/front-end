@@ -1,13 +1,25 @@
 import { NgClass, NgOptimizedImage } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { IonCard, IonCardContent, IonCheckbox, IonLabel, IonSpinner } from '@ionic/angular/standalone';
+import { IonCard, IonCardContent, IonCheckbox, IonLabel, IonSpinner, IonText } from '@ionic/angular/standalone';
 import { Card, CardStatus } from '@models/cards.models';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-card',
   standalone: true,
-  imports: [NgClass, IonLabel, IonCard, IonCardContent, IonCheckbox, IonSpinner, ReactiveFormsModule, NgOptimizedImage],
+  imports: [
+    IonText,
+    NgClass,
+    IonLabel,
+    TranslateModule,
+    IonCard,
+    IonCardContent,
+    IonCheckbox,
+    IonSpinner,
+    ReactiveFormsModule,
+    NgOptimizedImage,
+  ],
   templateUrl: './card.component.html',
   styleUrl: './card.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

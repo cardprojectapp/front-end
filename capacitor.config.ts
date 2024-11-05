@@ -1,8 +1,8 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'ion-collectihub',
-  appName: 'collectihub',
+  appId: 'kadocore.app',
+  appName: 'kadocore',
   webDir: 'www',
   server: {
     androidScheme: 'https',
