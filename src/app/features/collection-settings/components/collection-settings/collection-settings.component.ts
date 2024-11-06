@@ -57,7 +57,7 @@ export class CollectionSettingsComponent {
     serial_number: 'R-001',
     status: CardStatus.NotCollected,
     character_name: 'Sakura',
-    image_url: 'assets/img/card-stub.jpg',
+    image_url: 'assets/img/test1.webp',
   };
 
   globalProgressMode = this.collectionSettingsStore.globalProgressDisplayMode;

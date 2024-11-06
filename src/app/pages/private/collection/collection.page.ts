@@ -29,7 +29,7 @@ import {
 import { Card, CardStatus } from '@models/cards.models';
 import { TranslateModule } from '@ngx-translate/core';
 import { addIcons } from 'ionicons';
-import { closeCircleOutline, settingsOutline } from 'ionicons/icons';
+import { checkboxOutline, closeCircleOutline, settingsOutline } from 'ionicons/icons';
 
 @Component({
   selector: 'app-collection',
@@ -125,7 +125,7 @@ export default class CollectionPage implements OnInit {
   currentRarityCollectedCardsAmount: number = 0;
 
   constructor() {
-    addIcons({ settingsOutline, closeCircleOutline });
+    addIcons({ settingsOutline, checkboxOutline, closeCircleOutline });
 
     effect(() => {
       this.handleRarityChange(this.cardsByRarity(), this.selectedRarity());

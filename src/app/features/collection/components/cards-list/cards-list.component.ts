@@ -7,10 +7,12 @@ import { ToastColor } from '@services/toast/toast.models';
 import { ToastService } from '@services/toast/toast.service';
 import { take } from 'rxjs';
 
+import { NotExistingCardComponent } from '../not-existing-card/not-existing-card.component';
+
 @Component({
   selector: 'app-cards-list',
   standalone: true,
-  imports: [CardComponent, TranslateModule],
+  imports: [CardComponent, TranslateModule, NotExistingCardComponent],
   templateUrl: './cards-list.component.html',
   styleUrl: './cards-list.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -22,6 +24,7 @@ export class CardsListComponent {
   cardsList = input.required<Card[] | null>();
   cardsLoadingMap = input.required<CardsLoadingMap>();
   cardCheckboxClicked = output<Card>();
+  CardStatus = CardStatus;
 
   handleCardClick(card: Card): void {
     if (card.status === CardStatus.NotExisting) {

@@ -1,0 +1,13 @@
+<ion-card
+  class="tw-flex tw-flex-col tw-justify-between tw-h-full tw-m-0 tw-rounded tw-opacity-30"
+  (click)="handleCardClick(card().id)">
+  <div class="tw-flex tw-flex-auto tw-items-center">
+    <div class="tw-flex tw-w-[200px] tw-h-[281px] tw-bg-slate-300 tw-items-center tw-justify-center">
+      <ion-text color="dark" translate="collection.card_not_exists.message" />
+    </div>
+  </div>
+
+  <ion-card-content class="tw-flex tw-justify-between tw-items-center tw-p-2">
+    <ion-label class="tw-text-sm">{{ card().serial_number }}</ion-label>
+  </ion-card-content>
+</ion-card>

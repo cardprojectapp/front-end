@@ -1,11 +1,15 @@
 <div class="tw-flex tw-flex-wrap tw-justify-around">
   @for (card of cardsList(); track card.id) {
-    <app-card
-      class="tw-p-2"
-      [card]="card"
-      [isLoading]="cardsLoadingMap()[card.id]"
-      (clickCard)="handleCardClick(card)"
-      (clickCheckbox)="handleCheckboxClick(card)" />
+    @if (card.status === CardStatus.NotExisting) {
+      <app-not-existing-card class="tw-py-2" [card]="card" (clickCard)="handleCardClick(card)" />
+    } @else {
+      <app-card
+        class="tw-py-2"
+        [card]="card"
+        [isLoading]="cardsLoadingMap()[card.id]"
+        (clickCard)="handleCardClick(card)"
+        (clickCheckbox)="handleCheckboxClick(card)" />
+    }
   } @empty {
     <div class="tw-flex tw-justify-center tw-w-full tw-py-2">
       <p>{{ 'collection.cards_not_found.message' | translate }}</p>

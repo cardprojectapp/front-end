@@ -12,7 +12,7 @@ export const COLLECTION_CACHE_INITIAL_STATE: CollectionCache = {
       status: CardStatus.NotCollected,
       character_name: 'Sasuke',
       serial_number: 'R-001',
-      image_url: 'assets/img/card-stub.jpg',
+      image_url: 'assets/img/test1.webp',
     },
     {
       id: '2',
@@ -20,7 +20,7 @@ export const COLLECTION_CACHE_INITIAL_STATE: CollectionCache = {
       status: CardStatus.NotCollected,
       character_name: 'Naruto',
       serial_number: 'R-002',
-      image_url: 'assets/img/card-stub.jpg',
+      image_url: 'assets/img/test2.webp',
     },
     {
       id: '3',
@@ -28,7 +28,7 @@ export const COLLECTION_CACHE_INITIAL_STATE: CollectionCache = {
       status: CardStatus.NotExisting,
       character_name: 'Sakura',
       serial_number: 'R-003',
-      image_url: 'assets/img/card-stub.jpg',
+      image_url: 'assets/img/test1.webp',
     },
     {
       id: '4',
@@ -36,7 +36,7 @@ export const COLLECTION_CACHE_INITIAL_STATE: CollectionCache = {
       status: CardStatus.Collected,
       character_name: 'Kakashi',
       serial_number: 'R-004',
-      image_url: 'assets/img/card-stub.jpg',
+      image_url: 'assets/img/test1.webp',
     },
     {
       id: '5',
@@ -44,7 +44,7 @@ export const COLLECTION_CACHE_INITIAL_STATE: CollectionCache = {
       status: CardStatus.Collected,
       character_name: 'Kakashi2',
       serial_number: 'R-005',
-      image_url: 'assets/img/card-stub.jpg',
+      image_url: 'assets/img/test1.webp',
     },
     {
       id: '6',
@@ -52,7 +52,7 @@ export const COLLECTION_CACHE_INITIAL_STATE: CollectionCache = {
       status: CardStatus.Collected,
       character_name: 'Kakashi3',
       serial_number: 'R-006',
-      image_url: 'assets/img/card-stub.jpg',
+      image_url: 'assets/img/test1.webp',
     },
     {
       id: '7',
@@ -60,7 +60,7 @@ export const COLLECTION_CACHE_INITIAL_STATE: CollectionCache = {
       status: CardStatus.Collected,
       character_name: 'Kakashi4',
       serial_number: 'R-007',
-      image_url: 'assets/img/card-stub.jpg',
+      image_url: 'assets/img/test1.webp',
     },
     {
       id: '8',
@@ -68,7 +68,7 @@ export const COLLECTION_CACHE_INITIAL_STATE: CollectionCache = {
       status: CardStatus.Collected,
       character_name: 'Kakashi5',
       serial_number: 'R-008',
-      image_url: 'assets/img/card-stub.jpg',
+      image_url: 'assets/img/test1.webp',
     },
     {
       id: '9',
@@ -76,7 +76,7 @@ export const COLLECTION_CACHE_INITIAL_STATE: CollectionCache = {
       status: CardStatus.NotCollected,
       character_name: 'Sasuke',
       serial_number: 'SR-001',
-      image_url: 'assets/img/card-stub.jpg',
+      image_url: 'assets/img/test1.webp',
     },
     {
       id: '10',
@@ -84,7 +84,7 @@ export const COLLECTION_CACHE_INITIAL_STATE: CollectionCache = {
       status: CardStatus.Collected,
       character_name: 'Naruto',
       serial_number: 'SR-002',
-      image_url: 'assets/img/card-stub.jpg',
+      image_url: 'assets/img/test1.webp',
     },
     {
       id: '11',
@@ -92,7 +92,7 @@ export const COLLECTION_CACHE_INITIAL_STATE: CollectionCache = {
       status: CardStatus.NotCollected,
       character_name: 'Sakura',
       serial_number: 'SR-003',
-      image_url: 'assets/img/card-stub.jpg',
+      image_url: 'assets/img/test1.webp',
     },
     {
       id: '12',
@@ -100,7 +100,7 @@ export const COLLECTION_CACHE_INITIAL_STATE: CollectionCache = {
       status: CardStatus.Collected,
       character_name: 'Kakashi',
       serial_number: 'SR-004',
-      image_url: 'assets/img/card-stub.jpg',
+      image_url: 'assets/img/test1.webp',
     },
     {
       id: '13',
@@ -108,7 +108,7 @@ export const COLLECTION_CACHE_INITIAL_STATE: CollectionCache = {
       status: CardStatus.NotCollected,
       character_name: 'Boruto',
       serial_number: 'TR-001',
-      image_url: 'assets/img/card-stub.jpg',
+      image_url: 'assets/img/test1.webp',
     },
     {
       id: '14',
@@ -116,7 +116,7 @@ export const COLLECTION_CACHE_INITIAL_STATE: CollectionCache = {
       status: CardStatus.NotCollected,
       character_name: 'Suzune',
       serial_number: 'TR-002',
-      image_url: 'assets/img/card-stub.jpg',
+      image_url: 'assets/img/test1.webp',
     },
     {
       id: '15',
@@ -124,7 +124,7 @@ export const COLLECTION_CACHE_INITIAL_STATE: CollectionCache = {
       status: CardStatus.Collected,
       character_name: 'Tsunade',
       serial_number: 'TR-003',
-      image_url: 'assets/img/card-stub.jpg',
+      image_url: 'assets/img/test1.webp',
     },
     {
       id: '16',
@@ -132,7 +132,7 @@ export const COLLECTION_CACHE_INITIAL_STATE: CollectionCache = {
       status: CardStatus.Collected,
       character_name: 'Juraia',
       serial_number: 'TR-004',
-      image_url: 'assets/img/card-stub.jpg',
+      image_url: 'assets/img/test1.webp',
     },
     {
       id: '17',
@@ -140,7 +140,7 @@ export const COLLECTION_CACHE_INITIAL_STATE: CollectionCache = {
       status: CardStatus.Collected,
       character_name: 'Juraia',
       serial_number: 'HR-001',
-      image_url: 'assets/img/card-stub.jpg',
+      image_url: 'assets/img/test1.webp',
     },
     {
       id: '18',
@@ -148,7 +148,7 @@ export const COLLECTION_CACHE_INITIAL_STATE: CollectionCache = {
       status: CardStatus.NotExisting,
       character_name: 'Pain',
       serial_number: 'HR-002',
-      image_url: 'assets/img/card-stub.jpg',
+      image_url: 'assets/img/test1.webp',
     },
     {
       id: '19',
@@ -156,7 +156,7 @@ export const COLLECTION_CACHE_INITIAL_STATE: CollectionCache = {
       status: CardStatus.NotCollected,
       character_name: 'Nagato',
       serial_number: 'HR-003',
-      image_url: 'assets/img/card-stub.jpg',
+      image_url: 'assets/img/test1.webp',
     },
     {
       id: '20',
@@ -164,7 +164,7 @@ export const COLLECTION_CACHE_INITIAL_STATE: CollectionCache = {
       status: CardStatus.NotCollected,
       character_name: 'Hanzo',
       serial_number: 'HR-004',
-      image_url: 'assets/img/card-stub.jpg',
+      image_url: 'assets/img/test1.webp',
     },
     {
       id: '21',
@@ -172,7 +172,7 @@ export const COLLECTION_CACHE_INITIAL_STATE: CollectionCache = {
       status: CardStatus.NotCollected,
       character_name: 'Hanzo',
       serial_number: 'SS-SSR-001',
-      image_url: 'assets/img/card-stub.jpg',
+      image_url: 'assets/img/test1.webp',
     },
     {
       id: '22',
@@ -180,7 +180,7 @@ export const COLLECTION_CACHE_INITIAL_STATE: CollectionCache = {
       status: CardStatus.NotCollected,
       character_name: 'Hanzo2',
       serial_number: 'SS-SSR-002',
-      image_url: 'assets/img/card-stub.jpg',
+      image_url: 'assets/img/test1.webp',
     },
     {
       id: '23',
@@ -188,7 +188,7 @@ export const COLLECTION_CACHE_INITIAL_STATE: CollectionCache = {
       status: CardStatus.NotCollected,
       character_name: 'Hanzo3',
       serial_number: 'SS-SSR-003',
-      image_url: 'assets/img/card-stub.jpg',
+      image_url: 'assets/img/test1.webp',
     },
     {
       id: '24',
@@ -196,7 +196,7 @@ export const COLLECTION_CACHE_INITIAL_STATE: CollectionCache = {
       status: CardStatus.NotCollected,
       character_name: 'Hanzo4',
       serial_number: 'SS-SSR-004',
-      image_url: 'assets/img/card-stub.jpg',
+      image_url: 'assets/img/test1.webp',
     },
     {
       id: '25',
@@ -204,7 +204,7 @@ export const COLLECTION_CACHE_INITIAL_STATE: CollectionCache = {
       status: CardStatus.NotCollected,
       character_name: 'Hanzo5',
       serial_number: 'SS-SSR-005',
-      image_url: 'assets/img/card-stub.jpg',
+      image_url: 'assets/img/test1.webp',
     },
     {
       id: '26',
@@ -212,7 +212,7 @@ export const COLLECTION_CACHE_INITIAL_STATE: CollectionCache = {
       status: CardStatus.NotCollected,
       character_name: 'Hanzo6',
       serial_number: 'SS-SSR-006',
-      image_url: 'assets/img/card-stub.jpg',
+      image_url: 'assets/img/test1.webp',
     },
     {
       id: '27',
@@ -220,7 +220,7 @@ export const COLLECTION_CACHE_INITIAL_STATE: CollectionCache = {
       status: CardStatus.NotCollected,
       character_name: 'Hanzo7',
       serial_number: 'SS-SSR-007',
-      image_url: 'assets/img/card-stub.jpg',
+      image_url: 'assets/img/test1.webp',
     },
     {
       id: '28',
@@ -228,7 +228,7 @@ export const COLLECTION_CACHE_INITIAL_STATE: CollectionCache = {
       status: CardStatus.NotCollected,
       character_name: 'Hanzo8',
       serial_number: 'SS-SSR-008',
-      image_url: 'assets/img/card-stub.jpg',
+      image_url: 'assets/img/test1.webp',
     },
   ],
 };

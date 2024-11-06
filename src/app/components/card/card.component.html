@@ -1,38 +1,28 @@
 <ion-card
   class="tw-flex tw-flex-col tw-justify-between tw-h-full tw-m-0 tw-rounded"
-  [ngClass]="{
-    'tw-outline tw-outline-green-300': card().status === status.Collected,
-    'tw-opacity-30': card().status === status.NotExisting
-  }"
   (click)="handleCardClick(card().id)">
   <div class="tw-flex tw-flex-auto tw-items-center">
-    @if (card().status === status.NotExisting) {
-      <div class="tw-flex tw-w-[165px] tw-h-[271px] tw-bg-slate-300 tw-items-center tw-justify-center">
-        <ion-text color="dark" translate="collection.card_not_exists.message" />
-      </div>
-    } @else {
-      <img
-        class="tw-w-full"
-        width="165"
-        height="271"
-        alt="image description"
-        [ngSrc]="card().status !== status.NotExisting ? card().image_url : 'assets/img/card-not-found.jpg'"
-        (error)="handleImageLoadError($event)" />
-    }
+    <img
+      class="tw-w-full"
+      width="200"
+      height="281"
+      alt="image description"
+      [ngSrc]="card().status !== status.NotExisting ? card().image_url : 'assets/img/card-not-found.jpg'"
+      (error)="handleImageLoadError($event)" />
   </div>
+
   <ion-card-content class="tw-flex tw-justify-between tw-items-center tw-p-2">
     <ion-label class="tw-text-sm">{{ card().serial_number }}</ion-label>
-    @if (card().status !== status.NotExisting) {
-      <div class="tw-flex tw-justify-center tw-items-center tw-w-6 tw-h-6">
-        @if (!isLoading()) {
-          <ion-checkbox
-            color="success"
-            [checked]="card().status === status.Collected"
-            (click)="handleCardCheckboxClick($event, card().id)" />
-        } @else {
-          <ion-spinner [color]="card().status === status.Collected ? 'success' : 'medium'" name="circular" />
-        }
-      </div>
-    }
+
+    <div class="tw-flex tw-justify-center tw-items-center tw-w-6 tw-h-6">
+      @if (isLoading()) {
+        <ion-spinner [color]="card().status === status.Collected ? 'success' : 'medium'" name="circular" />
+      } @else {
+        <ion-checkbox
+          color="success"
+          [checked]="card().status === status.Collected"
+          (click)="handleCardCheckboxClick($event, card().id)" />
+      }
+    </div>
   </ion-card-content>
 </ion-card>
