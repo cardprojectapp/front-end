@@ -19,7 +19,7 @@ export const CollectionCardsStore = signalStore(
   { providedIn: 'root' },
   withState(COLLECTION_CARDS_INITIAL_STATE),
   withEntities<Card>(),
-  withComputed(({ entities }) => ({
+  withComputed(({ entities, cardsLoadingMap }) => ({
     cardsByRarity: computed(() => {
       return entities().reduce((memo: Record<string, Card[]>, card: Card) => {
         const cardsByRarity = memo[card.rarity] ?? [];
@@ -30,6 +30,10 @@ export const CollectionCardsStore = signalStore(
 
         return memo;
       }, {});
+    }),
+
+    cardsUpdateInProgress: computed(() => {
+      return Object.values(cardsLoadingMap()).some((isLoading: boolean) => isLoading);
     }),
   })),
   withMethods(store => {

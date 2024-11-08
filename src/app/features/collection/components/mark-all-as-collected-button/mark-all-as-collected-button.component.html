@@ -1,0 +1,14 @@
+<div class="tw-flex tw-justify-end tw-pt-1 tw-px-4">
+  @if (isLoading()) {
+    <ion-skeleton-text animated class="tw-w-16 tw-h-7 tw-rounded" />
+  } @else {
+    <ion-button
+      (click)="clicked.emit()"
+      [disabled]="disabled()"
+      type="button"
+      size="small"
+      translate="collection.mark_all_as_collected_button">
+      <ion-icon slot="start" name="checkbox-outline" />
+    </ion-button>
+  }
+</div>

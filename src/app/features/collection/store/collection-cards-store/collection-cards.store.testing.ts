@@ -6,4 +6,5 @@ export interface CollectionCardsStoreMock {
   error: jest.Mock;
   loading: jest.Mock;
   cardsLoadingMap: jest.Mock;
+  cardsUpdateInProgress: jest.Mock;
 }

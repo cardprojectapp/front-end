@@ -3,9 +3,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CardsListComponent } from '@features/collection/components/cards-list/cards-list.component';
 import { CardsListSkeletonComponent } from '@features/collection/components/cards-list-skeleton/cards-list-skeleton.component';
 import { ChipsListComponent } from '@features/collection/components/chips-list/chips-list.component';
+import { ChipsViewComponent } from '@features/collection/components/chips-view/chips-view.component';
+import { CollectionCardsViewComponent } from '@features/collection/components/collection-cards-view/collection-cards-view.component';
 import { CollectionFetchErrorComponent } from '@features/collection/components/collection-fetch-error/collection-fetch-error.component';
+import { MarkAllAsCollectedButtonComponent } from '@features/collection/components/mark-all-as-collected-button/mark-all-as-collected-button.component';
 import { ProgressBarComponent } from '@features/collection/components/progress-bar/progress-bar.component';
 import { RaritySliderComponent } from '@features/collection/components/rarity-slider/rarity-slider.component';
+import { SearchCardsViewComponent } from '@features/collection/components/search-cards-view/search-cards-view.component';
 import { CollectionCardsStore } from '@features/collection/store/collection-cards-store/collection-cards.store';
 import { CardsLoadingMap } from '@features/collection/store/collection-cards-store/collection-cards.store.models';
 import { CollectionInfoStore } from '@features/collection/store/collection-info/collection-info.store';
@@ -57,6 +61,10 @@ import { checkboxOutline, closeCircleOutline, settingsOutline } from 'ionicons/i
     CollectionFetchErrorComponent,
     IonSkeletonText,
     CardsListSkeletonComponent,
+    CollectionCardsViewComponent,
+    SearchCardsViewComponent,
+    ChipsViewComponent,
+    MarkAllAsCollectedButtonComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -79,6 +87,7 @@ export default class CollectionPage implements OnInit {
   cardsLoadingMap: Signal<CardsLoadingMap> = this.collectionCardsStore.cardsLoadingMap;
   collectionCardsError: Signal<string | undefined> = this.collectionCardsStore.error;
   isCollectionCardsLoading: Signal<boolean> = this.collectionCardsStore.loading;
+  isCardsUpdateInProgress: Signal<boolean> = this.collectionCardsStore.cardsUpdateInProgress;
 
   searchCards: Signal<Card[]> = this.searchCardsStore.entities;
   isSearchCardsLoading: Signal<boolean> = this.searchCardsStore.loading;
@@ -93,36 +102,27 @@ export default class CollectionPage implements OnInit {
     return !this.isCollectionInfoLoading() && this.collectionInfoError() === undefined;
   });
 
-  isGlobalProgressBarEnabled = computed(() => {
-    return this.globalProgressDisplayMode() !== CollectionProgressMode.None;
-  });
-
-  isRarityProgressBarEnabled = computed(() => {
-    return this.rarityProgressDisplayMode() !== CollectionProgressMode.None;
-  });
-
   canDisplayGlobalProgressBar = computed(() => {
-    const isEnabled = this.isGlobalProgressBarEnabled();
+    const isEnabled = this.globalProgressDisplayMode() !== CollectionProgressMode.None;
 
-    return isEnabled && this.isCollectionDataLoadedSuccessfully();
+    return isEnabled && this.collectionInfoError() === undefined;
   });
 
   canDisplayRarityProgressBar = computed(() => {
-    const isEnabled = this.isRarityProgressBarEnabled();
+    const isEnabled = this.rarityProgressDisplayMode() !== CollectionProgressMode.None;
 
-    return isEnabled && this.isCollectionDataLoadedSuccessfully();
+    return isEnabled && this.collectionInfoError() === undefined;
   });
 
-  canMarkAllAsCollected = false;
-
-  isDataLoading = computed(() => {
-    return this.isCollectionInfoLoading() || this.isSearchCardsLoading() || this.isCollectionCardsLoading();
+  isLoadingCollectionRequiredData = computed(() => {
+    return this.isCollectionInfoLoading() || this.isCollectionCardsLoading();
   });
 
   isImageDisplayMode = computed(() => this.cardsDisplayMode() === CardsDisplayMode.Image);
 
   cardsForCurrentRarity: Card[] = [];
   currentRarityCollectedCardsAmount: number = 0;
+  canMarkAllAsCollected = false;
 
   constructor() {
     addIcons({ settingsOutline, checkboxOutline, closeCircleOutline });
@@ -171,7 +171,7 @@ export default class CollectionPage implements OnInit {
     this.collectionCardsStore.update(patch);
   }
 
-  markAllAsCollectedClick(cards: Card[]): void {
+  markAllAsCollected(cards: Card[]): void {
     const uncollectedCardsIds = cards.filter(card => card.status === CardStatus.NotCollected).map(card => card.id);
 
     const patch = {
@@ -182,6 +182,15 @@ export default class CollectionPage implements OnInit {
     };
 
     this.collectionCardsStore.update(patch);
+  }
+
+  shouldHideMarkAllAsCollected(): boolean {
+    if (this.isCollectionCardsLoading()) return false;
+    if (this.collectionInfoError()) return true;
+    if (this.cardsSearchbar()?.value) return true;
+    if (this.canMarkAllAsCollected) return false;
+
+    return true;
   }
 
   reFetchCollectionInfo(): void {

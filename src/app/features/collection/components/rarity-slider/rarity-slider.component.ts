@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
-import { IonLabel, IonSegment, IonSegmentButton, SegmentCustomEvent } from '@ionic/angular/standalone';
+import { IonLabel, IonSegment, IonSegmentButton, IonSkeletonText, SegmentCustomEvent } from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-rarity-slider',
   standalone: true,
-  imports: [IonLabel, IonSegmentButton, IonSegment],
+  imports: [IonSkeletonText, IonLabel, IonSegmentButton, IonSegment],
   templateUrl: './rarity-slider.component.html',
   styleUrl: './rarity-slider.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -12,6 +12,7 @@ import { IonLabel, IonSegment, IonSegmentButton, SegmentCustomEvent } from '@ion
 export class RaritySliderComponent {
   rarities = input.required<string[]>();
   selectedRarity = input.required<string | undefined>();
+  isLoading = input.required<boolean>();
 
   selectRarity = output<string>();
 

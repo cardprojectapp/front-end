@@ -1,0 +1,8 @@
+@if (isLoading()) {
+  <app-cards-list-skeleton />
+} @else {
+  <app-cards-list
+    [cardsLoadingMap]="cardsLoadingMap()"
+    [cardsList]="cards()"
+    (cardCheckboxClicked)="cardStatusUpdated.emit($event)" />
+}

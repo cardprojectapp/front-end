@@ -39,6 +39,7 @@ describe(CollectionPage.name, () => {
 
     collectionCardsStoreMock = mock<CollectionCardsStoreMock>();
     collectionCardsStoreMock.cardsByRarity.mockReturnValue({ R: [] });
+    collectionCardsStoreMock.cardsUpdateInProgress.mockReturnValue(true);
 
     collectionInfoStoreMock = mock<CollectionInfoStoreMock>();
 
@@ -104,67 +105,10 @@ describe(CollectionPage.name, () => {
     });
   });
 
-  describe('isGlobalProgressBarEnabled', () => {
-    it('should return true when global progress display mode is not "None"', () => {
-      collectionSettingsStoreMock.globalProgressDisplayMode.mockReturnValue(CollectionProgressMode.Numbers);
-
-      expect(component.isGlobalProgressBarEnabled()).toBe(true);
-    });
-
-    it('should return false when global progress display mode is "None"', () => {
-      collectionSettingsStoreMock.globalProgressDisplayMode.mockReturnValue(CollectionProgressMode.None);
-
-      expect(component.isGlobalProgressBarEnabled()).toBe(false);
-    });
-  });
-
-  describe('isRarityProgressBarEnabled', () => {
-    it('should return true when rarity progress display mode is not "None"', () => {
-      collectionSettingsStoreMock.rarityProgressDisplayMode.mockReturnValue(CollectionProgressMode.Percentages);
-
-      expect(component.isRarityProgressBarEnabled()).toBe(true);
-    });
-
-    it('should return false when rarity progress display mode is "None"', () => {
-      collectionSettingsStoreMock.rarityProgressDisplayMode.mockReturnValue(CollectionProgressMode.None);
-
-      expect(component.isRarityProgressBarEnabled()).toBe(false);
-    });
-  });
-
-  describe('isCollectionDataLoadedSuccessfully', () => {
-    it('should return true if data loaded and no error in collection info store', () => {
-      collectionInfoStoreMock.loading.mockReturnValueOnce(false);
-      collectionInfoStoreMock.error.mockReturnValueOnce(undefined);
-
-      const result = component.isCollectionDataLoadedSuccessfully();
-
-      expect(result).toBe(true);
-    });
-
-    it('should return false if data was not loaded', () => {
-      collectionInfoStoreMock.loading.mockReturnValueOnce(true);
-      collectionInfoStoreMock.error.mockReturnValueOnce(undefined);
-
-      const result = component.isCollectionDataLoadedSuccessfully();
-
-      expect(result).toBe(false);
-    });
-
-    it('should return false if error received during data loding', () => {
-      collectionInfoStoreMock.loading.mockReturnValueOnce(false);
-      collectionInfoStoreMock.error.mockReturnValueOnce('error');
-
-      const result = component.isCollectionDataLoadedSuccessfully();
-
-      expect(result).toBe(false);
-    });
-  });
-
   describe('canDisplayGlobalProgressBar', () => {
-    it('should return true if selected display mode if not "none" and collection info loaded', () => {
-      component.isCollectionDataLoadedSuccessfully = signal(true);
+    it('should return true if selected display mode is not "none" and no error in info store', () => {
       collectionSettingsStoreMock.globalProgressDisplayMode.mockReturnValueOnce(CollectionProgressMode.Numbers);
+      collectionInfoStoreMock.error.mockReturnValueOnce(undefined);
 
       const result = component.canDisplayGlobalProgressBar();
 
@@ -172,7 +116,7 @@ describe(CollectionPage.name, () => {
     });
 
     it('should return false if selected display mode is "none"', () => {
-      component.isCollectionDataLoadedSuccessfully = signal(true);
+      collectionInfoStoreMock.error.mockReturnValueOnce('error');
       collectionSettingsStoreMock.globalProgressDisplayMode.mockReturnValueOnce(CollectionProgressMode.None);
 
       const result = component.canDisplayGlobalProgressBar();
@@ -180,8 +124,8 @@ describe(CollectionPage.name, () => {
       expect(result).toBe(false);
     });
 
-    it('should return false if collection info was not loaded', () => {
-      component.isCollectionDataLoadedSuccessfully = signal(false);
+    it('should return false if there is collection info error received', () => {
+      collectionInfoStoreMock.error.mockReturnValueOnce('error');
       collectionSettingsStoreMock.globalProgressDisplayMode.mockReturnValueOnce(CollectionProgressMode.Numbers);
 
       const result = component.canDisplayGlobalProgressBar();
@@ -191,8 +135,8 @@ describe(CollectionPage.name, () => {
   });
 
   describe('canDisplayRarityProgressBar', () => {
-    it('should return true if selected display mode if not "none" and collection info loaded', () => {
-      component.isCollectionDataLoadedSuccessfully = signal(true);
+    it('should return true if selected display mode if not "none" and no error receied in info store', () => {
+      collectionInfoStoreMock.error.mockReturnValueOnce(undefined);
       collectionSettingsStoreMock.rarityProgressDisplayMode.mockReturnValueOnce(CollectionProgressMode.Numbers);
 
       const result = component.canDisplayRarityProgressBar();
@@ -201,7 +145,7 @@ describe(CollectionPage.name, () => {
     });
 
     it('should return false if selected display mode is "none"', () => {
-      component.isCollectionDataLoadedSuccessfully = signal(true);
+      collectionInfoStoreMock.error.mockReturnValueOnce(undefined);
       collectionSettingsStoreMock.rarityProgressDisplayMode.mockReturnValueOnce(CollectionProgressMode.None);
 
       const result = component.canDisplayRarityProgressBar();
@@ -210,7 +154,7 @@ describe(CollectionPage.name, () => {
     });
 
     it('should return false if collection info was not loaded', () => {
-      component.isCollectionDataLoadedSuccessfully = signal(false);
+      collectionInfoStoreMock.error.mockReturnValueOnce('error');
       collectionSettingsStoreMock.rarityProgressDisplayMode.mockReturnValueOnce(CollectionProgressMode.Numbers);
 
       const result = component.canDisplayRarityProgressBar();
@@ -219,43 +163,30 @@ describe(CollectionPage.name, () => {
     });
   });
 
-  describe('isDataLoading', () => {
+  describe('isLoadingCollectionRequiredData', () => {
     it('should return true if only collectionInfo loading in progresss', () => {
       collectionInfoStoreMock.loading.mockReturnValueOnce(true);
-      searchCardsStoreMock.loading.mockReturnValueOnce(false);
       collectionCardsStoreMock.loading.mockReturnValueOnce(false);
 
-      const result = component.isDataLoading();
-
-      expect(result).toBe(true);
-    });
-
-    it('should return true if only searchCards loading in progresss', () => {
-      collectionInfoStoreMock.loading.mockReturnValueOnce(false);
-      searchCardsStoreMock.loading.mockReturnValueOnce(true);
-      collectionCardsStoreMock.loading.mockReturnValueOnce(false);
-
-      const result = component.isDataLoading();
+      const result = component.isLoadingCollectionRequiredData();
 
       expect(result).toBe(true);
     });
 
     it('should return true if only collectionCards loading in progresss', () => {
       collectionInfoStoreMock.loading.mockReturnValueOnce(false);
-      searchCardsStoreMock.loading.mockReturnValueOnce(false);
       collectionCardsStoreMock.loading.mockReturnValueOnce(true);
 
-      const result = component.isDataLoading();
+      const result = component.isLoadingCollectionRequiredData();
 
       expect(result).toBe(true);
     });
 
     it('should return false if all the stores have loading false', () => {
       collectionInfoStoreMock.loading.mockReturnValueOnce(false);
-      searchCardsStoreMock.loading.mockReturnValueOnce(false);
       collectionCardsStoreMock.loading.mockReturnValueOnce(false);
 
-      const result = component.isDataLoading();
+      const result = component.isLoadingCollectionRequiredData();
 
       expect(result).toBe(false);
     });
@@ -351,6 +282,165 @@ describe(CollectionPage.name, () => {
     });
   });
 
+  describe('markAllAsCollected', () => {
+    it('should build patch and trigger "update" method of collection cards store', () => {
+      const mockCards = [
+        mock<Card>({ status: CardStatus.NotCollected }),
+        mock<Card>({ status: CardStatus.Collected }),
+        mock<Card>({ status: CardStatus.NotExisting }),
+      ];
+      const expectedPatch = {
+        ids: [mockCards[0].id],
+        changes: {
+          status: CardStatus.Collected,
+        },
+      };
+
+      component.markAllAsCollected(mockCards);
+
+      expect(collectionCardsStoreMock.update).toHaveBeenCalledWith(expectedPatch);
+    });
+  });
+
+  describe('shouldHideMarkAllAsCollected', () => {
+    it('should return false if collections cards are loading', () => {
+      collectionCardsStoreMock.loading.mockReturnValueOnce(true);
+
+      const result = component.shouldHideMarkAllAsCollected();
+
+      expect(result).toBe(false);
+    });
+
+    it('should return true if collections info store has error', () => {
+      collectionCardsStoreMock.loading.mockReturnValueOnce(false);
+      collectionInfoStoreMock.error.mockReturnValueOnce('error');
+
+      const result = component.shouldHideMarkAllAsCollected();
+
+      expect(result).toBe(true);
+    });
+
+    it('should return true if searchbar has some value', () => {
+      collectionCardsStoreMock.loading.mockReturnValueOnce(false);
+      collectionInfoStoreMock.error.mockReturnValueOnce(undefined);
+      component.cardsSearchbar = signal({ value: '123' }) as any;
+
+      const result = component.shouldHideMarkAllAsCollected();
+
+      expect(result).toBe(true);
+    });
+
+    it('should return false if user can mark all cards as collected', () => {
+      collectionCardsStoreMock.loading.mockReturnValueOnce(false);
+      collectionInfoStoreMock.error.mockReturnValueOnce(undefined);
+      component.cardsSearchbar = signal({ value: undefined }) as any;
+      component.canMarkAllAsCollected = true;
+
+      const result = component.shouldHideMarkAllAsCollected();
+
+      expect(result).toBe(false);
+    });
+
+    it('should return true if user can not mark all cards as collected', () => {
+      collectionCardsStoreMock.loading.mockReturnValueOnce(false);
+      collectionInfoStoreMock.error.mockReturnValueOnce(undefined);
+      component.cardsSearchbar = signal({ value: undefined }) as any;
+      component.canMarkAllAsCollected = false;
+
+      const result = component.shouldHideMarkAllAsCollected();
+
+      expect(result).toBe(true);
+    });
+  });
+
+  describe('reFetchCollectionInfo', () => {
+    it('should trigger "getCollectionInfo" method of collection info store', () => {
+      component.reFetchCollectionInfo();
+
+      expect(collectionInfoStoreMock.getCollectionInfo).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('reFetchCardsByRarity', () => {
+    it('should trigger "fatchByRarity" store method', () => {
+      component.reFetchCardsByRarity();
+
+      expect(collectionCardsStoreMock.fetchByRarity).toHaveBeenCalledTimes(1);
+    });
+
+    it('should trigger "getCollectedCardsForRarity" method to update collected cards amount', () => {
+      const spy = jest.spyOn(component, 'getCollectedCardsForRarity');
+
+      component.reFetchCardsByRarity();
+
+      expect(spy).toHaveBeenCalledWith([]);
+    });
+  });
+
+  describe('handleRarityChange', () => {
+    it('should assign empty array as value if no cards for rarity', () => {
+      component.handleRarityChange({}, 'R');
+
+      expect(component.cardsForCurrentRarity).toStrictEqual([]);
+    });
+
+    it('should trigger "fatchByRarity" if no cards for rarity', () => {
+      component.handleRarityChange({}, 'R');
+
+      expect(collectionCardsStoreMock.fetchByRarity).toHaveBeenCalledTimes(1);
+    });
+
+    it('should assign array with cards as value if there are cards for rarity', () => {
+      const cardsMock = [mock<Card>()];
+
+      component.handleRarityChange({ R: cardsMock }, 'R');
+
+      expect(component.cardsForCurrentRarity).toStrictEqual(cardsMock);
+    });
+  });
+
+  describe('getCollectedCardsForRarity', () => {
+    it('should filter out cards that are not collected', () => {
+      const cardsMock = [mock<Card>({ status: CardStatus.Collected }), mock<Card>({ status: CardStatus.NotCollected })];
+
+      const result = component.getCollectedCardsForRarity(cardsMock);
+
+      expect(result.length).toBe(1);
+    });
+  });
+
+  describe('getCanMarkAllAsCollected', () => {
+    describe("can't mark all as collected", () => {
+      it('should return false if list is empty', () => {
+        jest.spyOn(component, 'isCardsListEmpty').mockReturnValueOnce(true);
+
+        const result = component.getCanMarkAllAsCollected([]);
+
+        expect(result).toBeFalsy();
+      });
+
+      it('should return false if every card is collected', () => {
+        jest.spyOn(component, 'isCardsListEmpty').mockReturnValueOnce(false);
+        jest.spyOn(component, 'isSomeCardUncollected').mockReturnValueOnce(false);
+
+        const result = component.getCanMarkAllAsCollected([]);
+
+        expect(result).toBeFalsy();
+      });
+    });
+
+    describe('can mark all as collected', () => {
+      it('should return true if list is not empty and some card is uncollected', () => {
+        jest.spyOn(component, 'isCardsListEmpty').mockReturnValueOnce(false);
+        jest.spyOn(component, 'isSomeCardUncollected').mockReturnValueOnce(true);
+
+        const result = component.getCanMarkAllAsCollected([]);
+
+        expect(result).toBeTruthy();
+      });
+    });
+  });
+
   describe('isCardsListEmpty', () => {
     describe('returns false', () => {
       it('should return false if list is not empty', () => {
@@ -412,114 +502,6 @@ describe(CollectionPage.name, () => {
 
         expect(result).toBeTruthy();
       });
-    });
-  });
-
-  describe('getCanMarkAllAsCollected', () => {
-    describe("can't mark all as collected", () => {
-      it('should return false if list is empty', () => {
-        jest.spyOn(component, 'isCardsListEmpty').mockReturnValueOnce(true);
-
-        const result = component.getCanMarkAllAsCollected([]);
-
-        expect(result).toBeFalsy();
-      });
-
-      it('should return false if every card is collected', () => {
-        jest.spyOn(component, 'isCardsListEmpty').mockReturnValueOnce(false);
-        jest.spyOn(component, 'isSomeCardUncollected').mockReturnValueOnce(false);
-
-        const result = component.getCanMarkAllAsCollected([]);
-
-        expect(result).toBeFalsy();
-      });
-    });
-
-    describe('can mark all as collected', () => {
-      it('should return true if list is not empty and some card is uncollected', () => {
-        jest.spyOn(component, 'isCardsListEmpty').mockReturnValueOnce(false);
-        jest.spyOn(component, 'isSomeCardUncollected').mockReturnValueOnce(true);
-
-        const result = component.getCanMarkAllAsCollected([]);
-
-        expect(result).toBeTruthy();
-      });
-    });
-  });
-
-  describe('markAllAsCollected', () => {
-    it('should build patch and trigger "update" method of collection cards store', () => {
-      const mockCards = [
-        mock<Card>({ status: CardStatus.NotCollected }),
-        mock<Card>({ status: CardStatus.Collected }),
-        mock<Card>({ status: CardStatus.NotExisting }),
-      ];
-      const expectedPatch = {
-        ids: [mockCards[0].id],
-        changes: {
-          status: CardStatus.Collected,
-        },
-      };
-
-      component.markAllAsCollectedClick(mockCards);
-
-      expect(collectionCardsStoreMock.update).toHaveBeenCalledWith(expectedPatch);
-    });
-  });
-
-  describe('reFetchCollectionInfo', () => {
-    it('should trigger "getCollectionInfo" method of collection info store', () => {
-      component.reFetchCollectionInfo();
-
-      expect(collectionInfoStoreMock.getCollectionInfo).toHaveBeenCalledTimes(1);
-    });
-  });
-
-  describe('reFetchCardsByRarity', () => {
-    it('should trigger "fatchByRarity" store method', () => {
-      component.reFetchCardsByRarity();
-
-      expect(collectionCardsStoreMock.fetchByRarity).toHaveBeenCalledTimes(1);
-    });
-
-    it('should trigger "getCollectedCardsForRarity" method to update collected cards amount', () => {
-      const spy = jest.spyOn(component, 'getCollectedCardsForRarity');
-
-      component.reFetchCardsByRarity();
-
-      expect(spy).toHaveBeenCalledWith([]);
-    });
-  });
-
-  describe('handleRarityChange', () => {
-    it('should assign empty array as value if no cards for rarity', () => {
-      component.handleRarityChange({}, 'R');
-
-      expect(component.cardsForCurrentRarity).toStrictEqual([]);
-    });
-
-    it('should trigger "fatchByRarity" if no cards for rarity', () => {
-      component.handleRarityChange({}, 'R');
-
-      expect(collectionCardsStoreMock.fetchByRarity).toHaveBeenCalledTimes(1);
-    });
-
-    it('should assign array with cards as value if there are cards for rarity', () => {
-      const cardsMock = [mock<Card>()];
-
-      component.handleRarityChange({ R: cardsMock }, 'R');
-
-      expect(component.cardsForCurrentRarity).toStrictEqual(cardsMock);
-    });
-  });
-
-  describe('getCollectedCardsForRarity', () => {
-    it('should filter out cards that are not collected', () => {
-      const cardsMock = [mock<Card>({ status: CardStatus.Collected }), mock<Card>({ status: CardStatus.NotCollected })];
-
-      const result = component.getCollectedCardsForRarity(cardsMock);
-
-      expect(result.length).toBe(1);
     });
   });
 });

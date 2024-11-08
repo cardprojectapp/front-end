@@ -1,0 +1,6 @@
+@use 'mixins' as m;
+
+ion-skeleton-text.chip-skeleton {
+    @include m.skeleton-mixin;
+  }
+  

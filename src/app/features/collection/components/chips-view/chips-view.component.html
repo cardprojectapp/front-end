@@ -1,0 +1,13 @@
+@if (isLoading()) {
+  <app-chips-list-skeleton />
+} @else if (error() !== undefined) {
+  <app-collection-fetch-error
+    [label]="'collection.cards_fetch_failed' | translate"
+    [buttonText]="'collection.cards_fetch_failed_button' | translate"
+    (tryAgainClicked)="tryAgainClicked.emit()" />
+} @else {
+  <app-chips-list
+    [cardsLoadingMap]="cardsLoadingMap()"
+    [cardsList]="cards()"
+    (chipClicked)="cardStatusUpdated.emit($event)" />
+}

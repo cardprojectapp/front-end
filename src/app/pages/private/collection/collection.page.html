@@ -23,68 +23,63 @@
     </ion-toolbar>
   </ion-header>
 
-  @if(isGlobalProgressBarEnabled() && this.collectionInfoError() === undefined){
+  @if(canDisplayGlobalProgressBar()){
   <app-progress-bar
     label="progress_bar.global_progress.label"
-    [isLoading]="isDataLoading()"
+    [isLoading]="isCollectionInfoLoading()"
     [maxValue]="cardsTotal()!"
     [currentValue]="cardsCollected()!"
     [displayMode]="globalProgressDisplayMode()" />
   }
 
+  <app-mark-all-as-collected-button
+    [isLoading]="isLoadingCollectionRequiredData()"
+    [class.tw-invisible]="shouldHideMarkAllAsCollected()"
+    [disabled]="isCardsUpdateInProgress()"
+    (clicked)="markAllAsCollected(cardsForCurrentRarity)" />
+
   <ion-content>
-    @if (isDataLoading()) {
-    <div class="tw-flex tw-justify-end tw-pt-1 tw-px-4">
-      <ion-skeleton-text animated class="tw-w-16 tw-h-7 tw-rounded" />
-    </div>
-    } @else if (!cardsSearchbar!.value && canMarkAllAsCollected) {
-    <div class="tw-flex tw-justify-end tw-pt-1 tw-px-4">
-      <ion-button
-        (click)="markAllAsCollectedClick(cardsForCurrentRarity)"
-        type="button"
-        size="small"
-        translate="collection.mark_all_as_collected_button">
-        <ion-icon slot="start" name="checkbox-outline" />
-      </ion-button>
-    </div>
-    } @if(isDataLoading()){
-    <div class="tw-flex tw-justify-center tw-items-center tw-w-full">
-      <ion-spinner name="bubbles" color="medium" />
-    </div>
-    <app-cards-list-skeleton />
-    } @else if (this.collectionInfoError() !== undefined) {
+    @if (this.collectionInfoError()) {
     <app-collection-fetch-error
       [label]="'collection.info_fetch_failed' | translate"
       [buttonText]="'collection.info_fetch_failed_button' | translate"
       (tryAgainClicked)="reFetchCollectionInfo()" />
-    } @else if (collectionCardsError() !== undefined && !cardsSearchbar.value) {
-    <app-collection-fetch-error
-      [label]="'collection.cards_fetch_failed' | translate"
-      [buttonText]="'collection.cards_fetch_failed_button' | translate"
+    } @else if (cardsSearchbar.value) {
+    <app-search-cards-view
+      [isLoading]="isSearchCardsLoading()"
+      [cardsLoadingMap]="cardsLoadingMap()"
+      [cards]="searchCards()"
+      (cardStatusUpdated)="updateCardStatus($event)" />
+    } @else if (isImageDisplayMode()){
+    <app-collection-cards-view
+      [error]="collectionCardsError()"
+      [isLoading]="isLoadingCollectionRequiredData()"
+      [cardsLoadingMap]="cardsLoadingMap()"
+      [cards]="cardsForCurrentRarity"
+      (cardStatusUpdated)="updateCardStatus($event)"
       (tryAgainClicked)="reFetchCardsByRarity()" />
-    } @else if(cardsSearchbar.value || isImageDisplayMode()){
-    <app-cards-list
-      [cardsLoadingMap]="cardsLoadingMap()"
-      [cardsList]="cardsSearchbar.value ? searchCards() : cardsForCurrentRarity"
-      (cardCheckboxClicked)="updateCardStatus($event)" />
     } @else {
-    <app-chips-list
+    <app-chips-view
+      [error]="collectionCardsError()"
+      [isLoading]="isLoadingCollectionRequiredData()"
       [cardsLoadingMap]="cardsLoadingMap()"
-      [cardsList]="cardsForCurrentRarity"
-      (chipClicked)="updateCardStatus($event)" />
+      [cards]="cardsForCurrentRarity"
+      (cardStatusUpdated)="updateCardStatus($event)"
+      (tryAgainClicked)="reFetchCardsByRarity()" />
     }
   </ion-content>
 
   @if(canDisplayRarityProgressBar()){
   <app-progress-bar
     label="progress_bar.rarity_progress.label"
-    [isLoading]="isDataLoading()"
+    [isLoading]="isLoadingCollectionRequiredData()"
     [maxValue]="cardsForCurrentRarity.length"
     [currentValue]="currentRarityCollectedCardsAmount"
     [displayMode]="rarityProgressDisplayMode()" />
-  } @if (isCollectionDataLoadedSuccessfully()) {
+  } @if (this.collectionInfoError() === undefined) {
   <app-rarity-slider
     [rarities]="rarities()!"
+    [isLoading]="isCollectionInfoLoading()"
     [selectedRarity]="cardsSearchbar.value ? undefined : selectedRarity()"
     (selectRarity)="handleSelectRarity($event)" />
   }

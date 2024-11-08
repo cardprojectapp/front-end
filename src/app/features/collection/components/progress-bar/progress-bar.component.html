@@ -2,8 +2,8 @@
   <p>{{ label() | translate }}</p>
   <div class="tw-flex tw-items-center tw-gap-1 tw-w-full">
     @if (isLoading()) {
-      <ion-skeleton-text animated class="progress-bar-skeleton tw-w-1/10 tw-mr-2" />
-      <ion-skeleton-text animated class="progress-bar-skeleton" />
+      <ion-skeleton-text animated class="progress-bar-skeleton tw-w-1/10 tw-mr-2 tw-h-4 tw-my-0" />
+      <ion-skeleton-text animated class="progress-bar-skeleton tw-h-1" />
     } @else {
       <p class="tw-shrink-0">{{ formattedProgressValue() }}</p>
       <ion-progress-bar color="success" [value]="progressValue()" />

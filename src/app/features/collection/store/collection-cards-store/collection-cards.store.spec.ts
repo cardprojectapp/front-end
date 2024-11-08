@@ -67,6 +67,49 @@ describe('CollectionCardsStore', () => {
     jest.resetAllMocks();
   });
 
+  describe('cardsByRarity', () => {
+    it('should return cards ordered by rarity', fakeAsync(() => {
+      const cardMock = { id: '123', rarity: 'r' } as Card;
+      collectionApiServiceMock.getCardsByRarity$.mockReturnValue(of([cardMock]));
+      store.fetchByRarity('R');
+      tick();
+
+      const result = store.cardsByRarity();
+      tick();
+
+      expect(result).toStrictEqual({ r: [cardMock] });
+    }));
+
+    it('should return empty object if no entities in store', fakeAsync(() => {
+      const result = store.cardsByRarity();
+      tick();
+
+      expect(result).toStrictEqual({});
+    }));
+  });
+
+  describe('cardsUpdateInProgress', () => {
+    it('should return false, if there is no cards updating in progress', () => {
+      const result = store.cardsUpdateInProgress();
+
+      expect(result).toBe(false);
+    });
+
+    it('should return true, if there are some cards updating in progress', () => {
+      collectionApiServiceMock.updateCards$.mockReturnValue(EMPTY);
+      jest.spyOn(CollectionCardsStoreFunctions, 'buildCardsLoadingMap').mockReturnValueOnce({ '123': true });
+
+      store.update({
+        ids: ['123'],
+        changes: {},
+      });
+
+      const result = store.cardsUpdateInProgress();
+
+      expect(result).toBe(true);
+    });
+  });
+
   describe('fetchByRarity', () => {
     describe('pre actions', () => {
       it('should reset error in store when called', fakeAsync(() => {
