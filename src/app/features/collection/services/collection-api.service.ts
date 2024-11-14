@@ -13,7 +13,7 @@ import {
 import { CollectionSchemas } from '@features/collection/collection.schemas';
 import { Card } from '@models/cards.models';
 import { ValidationService } from '@services/validation/validation.service';
-import { Observable, map } from 'rxjs';
+import { Observable, map, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -45,6 +45,7 @@ export class CollectionApiService {
         params,
       })
       .pipe(
+        tap(console.log),
         map((res: CollectionCardsResponseDto) =>
           this.validationService.validate(CollectionSchemas.collectionCardsResponseDto, res),
         ),

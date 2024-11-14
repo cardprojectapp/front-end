@@ -1,6 +1,7 @@
 import { HttpErrorResponse, HttpHandlerFn, HttpRequest, HttpResponse } from '@angular/common/http';
 import { CollectionInfoDto, UpdateCardsDto } from '@features/collection/collection.models';
 import { Card, CardStatus } from '@models/cards.models';
+import { switchWith } from '@tools/rxjs/switch-with.operator';
 import { from, map, of, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
@@ -37,11 +38,13 @@ export const collectionMockInterceptor = (req: HttpRequest<unknown>, next: HttpH
     }
 
     return from(import('./rarities-mock.json')).pipe(
-      map(raritiesMock => {
+      switchWith(() => from(import('./non-existent-cards-mock.json'))),
+      map(([raritiesMock, nonExistedntCards]) => {
         const collectionInfo: CollectionInfoDto = {
           cards_total: cache.cards_total,
           cards_collected: cache.cards_collected,
           rarities: raritiesMock.rarities,
+          non_existent_cards: nonExistedntCards.default,
         };
 
         return new HttpResponse({ status: 200, body: { data: collectionInfo, message: 'Success!' } });
@@ -75,9 +78,8 @@ export const collectionMockInterceptor = (req: HttpRequest<unknown>, next: HttpH
     const targetCards = cache.cards.filter(card => {
       const isMatchCharacterName = card.character_name.toLocaleLowerCase().includes(searchTerm);
       const isMatchNumber = card.serial_number.toLocaleLowerCase().includes(searchTerm);
-      const isCardExisting = card.status !== CardStatus.NotExisting;
 
-      return isCardExisting && (isMatchCharacterName || isMatchNumber);
+      return isMatchCharacterName || isMatchNumber;
     });
 
     return of(new HttpResponse({ status: 200, body: { data: { cards: targetCards }, message: 'Success!' } }));

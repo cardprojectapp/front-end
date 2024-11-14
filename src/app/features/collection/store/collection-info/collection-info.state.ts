@@ -6,4 +6,5 @@ export const COLLECTION_INFO_INITIAL_STATE: CollectionInfoState = {
   cards_collected: undefined,
   cards_total: undefined,
   rarities: undefined,
+  non_existent_cards: undefined,
 };

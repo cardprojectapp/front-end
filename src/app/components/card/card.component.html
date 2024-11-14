@@ -8,7 +8,7 @@
       width="200"
       height="281"
       alt="image description"
-      [ngSrc]="card().status !== status.NotExisting ? card().image_url : 'assets/img/card-not-found.jpg'"
+      [ngSrc]="card().image_url"
       (error)="handleImageLoadError($event)" />
   </div>
 

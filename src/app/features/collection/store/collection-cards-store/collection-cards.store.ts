@@ -51,7 +51,7 @@ export const CollectionCardsStore = signalStore(
               tapResponse({
                 next: (cards: Card[]) => patchState(store, setEntities(cards), { loading: false }),
                 error: (error: HttpErrorResponse) => {
-                  const errorMessage = error.error.message;
+                  const errorMessage = error?.error?.message || error?.message;
 
                   patchState(store, { error: errorMessage, loading: false });
                 },
@@ -92,7 +92,7 @@ export const CollectionCardsStore = signalStore(
                   });
                 },
                 error: (error: HttpErrorResponse) => {
-                  const errorMessage = error.error.message;
+                  const errorMessage = error?.error?.message || error?.message;
 
                   patchState(store, ({ cardsLoadingMap }) => {
                     const updatedLoadingMap = CollectionCardsStoreFunctions.buildCardsLoadingMap(

@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { inject } from '@angular/core';
+import { computed, inject } from '@angular/core';
 import { tapResponse } from '@ngrx/operators';
-import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
+import { patchState, signalStore, withComputed, withMethods, withState } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { pipe, switchMap, tap } from 'rxjs';
 
@@ -9,10 +9,14 @@ import { CollectionInfoDto, UpdateCardsResponseData } from '../../collection.mod
 import { CollectionApiService } from '../../services/collection-api.service';
 
 import { COLLECTION_INFO_INITIAL_STATE } from './collection-info.state';
+import { CollectionInfoStoreFunctions } from './collections-info.store.functions';
 
 export const CollectionInfoStore = signalStore(
   { providedIn: 'root' },
   withState(COLLECTION_INFO_INITIAL_STATE),
+  withComputed(({ non_existent_cards }) => ({
+    nonExistentCardsMap: computed(() => CollectionInfoStoreFunctions.buildNonExistentCardsMap(non_existent_cards())),
+  })),
   withMethods(store => {
     const collectionApiService = inject(CollectionApiService);
 
@@ -25,7 +29,7 @@ export const CollectionInfoStore = signalStore(
               tapResponse({
                 next: (collectionInfo: CollectionInfoDto) => patchState(store, { ...collectionInfo, loading: false }),
                 error: (error: HttpErrorResponse) => {
-                  const errorMessage = error.error.message;
+                  const errorMessage = error?.error?.message || error?.message;
 
                   patchState(store, { error: errorMessage, loading: false });
                 },

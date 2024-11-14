@@ -1,13 +1,13 @@
 import { classWithProviders } from '@ngx-unit-test/inject-mocks';
 
-import { NotExistingCardComponent } from './not-existing-card.component';
+import { NonExistentCardComponent } from './non-existent-card.component';
 
 describe('NotExistingCardComponent', () => {
-  let component: NotExistingCardComponent;
+  let component: NonExistentCardComponent;
 
   beforeEach(() => {
     component = classWithProviders({
-      token: NotExistingCardComponent,
+      token: NonExistentCardComponent,
       providers: [],
     });
   });

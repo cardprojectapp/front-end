@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
-import { CardsLoadingMap } from '@features/collection/store/collection-cards-store/collection-cards.store.models';
+import { CardsLoadingMap, NonExistentCardsMap } from '@features/collection/store/collection-cards-store/collection-cards.store.models';
 import { IonSpinner } from '@ionic/angular/standalone';
 import { Card } from '@models/cards.models';
 import { TranslateModule } from '@ngx-translate/core';
@@ -28,6 +28,7 @@ export class ChipsViewComponent {
   error = input.required<string | undefined>();
   isLoading = input.required<boolean>();
   cardsLoadingMap = input.required<CardsLoadingMap>();
+  nonExistentCardsMap = input.required<NonExistentCardsMap | undefined>();
   cards = input.required<Card[]>();
 
   cardStatusUpdated = output<Card>();

@@ -4,14 +4,14 @@ import { Card } from '@models/cards.models';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-not-existing-card',
+  selector: 'app-non-existent-card',
   standalone: true,
   imports: [IonLabel, IonCardContent, IonText, IonCard, TranslateModule],
-  templateUrl: './not-existing-card.component.html',
-  styleUrl: './not-existing-card.component.scss',
+  templateUrl: './non-existent-card.component.html',
+  styleUrl: './non-existent-card.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NotExistingCardComponent {
+export class NonExistentCardComponent {
   card = input.required<Card>();
 
   clickCard = output<string>();

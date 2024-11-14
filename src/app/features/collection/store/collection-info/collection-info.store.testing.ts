@@ -6,4 +6,5 @@ export interface CollectionInfoStoreMock {
   cards_collected: jest.Mock;
   cards_total: jest.Mock;
   rarities: jest.Mock;
+  nonExistentCardsMap: jest.Mock;
 }

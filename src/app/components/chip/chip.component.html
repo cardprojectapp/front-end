@@ -1,10 +1,7 @@
 <div class="tw-relative tw-w-full">
   <ion-chip
     class="tw-rounded tw-m-0 tw-w-full tw-justify-center"
-    [ngClass]="{
-      'tw-opacity-30': card().status === status.NotExisting,
-      'tw-text-transparent': isLoading()
-    }"
+    [class.tw-text-transparent]="isLoading()"
     [color]="card().status === status.Collected ? 'success' : 'medium'"
     [disabled]="isLoading()"
     (click)="handleChipClick(card().id)">

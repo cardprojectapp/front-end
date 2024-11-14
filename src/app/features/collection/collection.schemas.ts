@@ -14,7 +14,7 @@ export namespace CollectionSchemas {
     properties: {
       data: {
         type: 'object',
-        required: ['rarities', 'cards_total', 'cards_collected'],
+        required: ['rarities', 'cards_total', 'cards_collected', 'non_existent_cards'],
         properties: {
           rarities: {
             type: 'array',
@@ -24,6 +24,18 @@ export namespace CollectionSchemas {
           },
           cards_total: { type: 'number' },
           cards_collected: { type: 'number' },
+          non_existent_cards: {
+            type: 'array',
+            items: {
+              type: 'object',
+              required: ['id', 'rarity', 'serial_number'],
+              properties: {
+                id: { type: 'string' },
+                rarity: { type: 'string' },
+                serial_number: { type: 'string' },
+              },
+            },
+          },
         },
       },
       message: { type: 'string' },

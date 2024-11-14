@@ -1,4 +1,4 @@
-import { Card, CardStatus } from '@models/cards.models';
+import { Card } from '@models/cards.models';
 import { TranslateService } from '@ngx-translate/core';
 import { classWithProviders } from '@ngx-unit-test/inject-mocks';
 import { ToastColor } from '@services/toast/toast.models';
@@ -35,25 +35,28 @@ describe(CardsListComponent.name, () => {
     });
   });
 
-  describe('handleCardClick', () => {
+  describe('handleNonExistentCardClick', () => {
     it('should translate message for toaster if the card does not exist', () => {
-      const card = {
-        status: CardStatus.NotExisting,
-      } as Card;
-
-      component.handleCardClick(card);
+      component.handleNonExistentCardClick();
 
       expect(translateServiceMock.instant).toHaveBeenCalledWith('collection.card_not_exists.toast');
     });
 
     it('should open toast if the card does not exist', () => {
-      const card = {
-        status: CardStatus.NotExisting,
-      } as Card;
-
-      component.handleCardClick(card);
+      component.handleNonExistentCardClick();
 
       expect(toastServiceMock.open$).toHaveBeenCalledWith('collection.card_not_exists.toast', ToastColor.Medium);
+    });
+  });
+
+  describe('handleCheckboxClick', () => {
+    it('should trigger "cardCheckboxClicked" output event', () => {
+      const cardMock = mock<Card>();
+      const spy = jest.spyOn(component.cardCheckboxClicked, 'emit');
+
+      component.handleCheckboxClick(cardMock);
+
+      expect(spy).toHaveBeenCalledWith(cardMock);
     });
   });
 });

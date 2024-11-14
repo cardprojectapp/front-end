@@ -1,4 +1,4 @@
-import { Card } from '@models/cards.models';
+import { Card, NonExistentCard } from '@models/cards.models';
 
 export interface CollectionInfoResponseDto {
   data: CollectionInfoDto;
@@ -9,6 +9,7 @@ export interface CollectionInfoDto {
   rarities: string[];
   cards_total: number;
   cards_collected: number;
+  non_existent_cards: NonExistentCard[];
 }
 
 export interface CollectionCardsResponseDto {

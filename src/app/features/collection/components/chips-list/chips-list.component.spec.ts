@@ -1,4 +1,5 @@
-import { Card, CardStatus } from '@models/cards.models';
+import { signal } from '@angular/core';
+import { Card } from '@models/cards.models';
 import { TranslateService } from '@ngx-translate/core';
 import { classWithProviders } from '@ngx-unit-test/inject-mocks';
 import { ToastColor } from '@services/toast/toast.models';
@@ -37,8 +38,9 @@ describe(ChipsListComponent.name, () => {
 
   describe('handleChipClick', () => {
     it('should translate message for toaster if the chip does not exist', () => {
+      component.nonExistentCardsMap = signal({ '1': {} }) as any;
       const card = {
-        status: CardStatus.NotExisting,
+        id: '1',
       } as Card;
 
       component.handleChipClick(card);
@@ -47,8 +49,9 @@ describe(ChipsListComponent.name, () => {
     });
 
     it('should open toast if the chip does not exist', () => {
+      component.nonExistentCardsMap = signal({ '1': {} }) as any;
       const card = {
-        status: CardStatus.NotExisting,
+        id: '1',
       } as Card;
 
       component.handleChipClick(card);

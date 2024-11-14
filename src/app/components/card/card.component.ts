@@ -31,6 +31,7 @@ export class CardComponent {
   isLoading = input.required<boolean>();
   clickCard = output<string>();
   clickCheckbox = output<string>();
+
   handleCardClick(cardId: string): void {
     this.clickCard.emit(cardId);
   }

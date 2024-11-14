@@ -8,6 +8,7 @@
 } @else {
   <app-cards-list
     [cardsLoadingMap]="cardsLoadingMap()"
+    [nonExistentCardsMap]="nonExistentCardsMap()"
     [cardsList]="cards()"
     (cardCheckboxClicked)="cardStatusUpdated.emit($event)" />
 }

@@ -7,6 +7,7 @@ import { MockProxy, mock } from 'jest-mock-extended';
 import { of, throwError } from 'rxjs';
 
 import { CollectionInfoStore } from './collection-info.store';
+import { CollectionInfoStoreFunctions } from './collections-info.store.functions';
 
 jest.mock('@ngrx/signals', () => {
   const actual = jest.requireActual('@ngrx/signals');
@@ -38,6 +39,16 @@ describe('CollectionInfoStore', () => {
 
   afterEach(() => {
     jest.resetAllMocks();
+  });
+
+  describe('nonExistentCardsMap', () => {
+    it('should trigger "buildNonExistentCardsMap" function to build map', () => {
+      const spy = jest.spyOn(CollectionInfoStoreFunctions, 'buildNonExistentCardsMap');
+
+      store.nonExistentCardsMap();
+
+      expect(spy).toHaveBeenCalledTimes(1);
+    });
   });
 
   describe('getCollectionInfo', () => {

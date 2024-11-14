@@ -1,6 +1,8 @@
-import { Card } from '@models/cards.models';
+import { Card, NonExistentCard } from '@models/cards.models';
 
 export type CardsLoadingMap = Record<string, boolean>;
+
+export type NonExistentCardsMap = Record<string, Record<number, NonExistentCard>>;
 
 export interface CollectionCardsState {
   error: string | undefined;

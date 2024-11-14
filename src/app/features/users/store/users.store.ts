@@ -50,7 +50,7 @@ export const UsersStore = signalStore(
                   void router.navigate(['/profile']);
                 },
                 error: (error: HttpErrorResponse) => {
-                  const errorMessage = error.error.message;
+                  const errorMessage = error?.error?.message || error?.message;
 
                   patchState(store, { error: errorMessage });
                 },
@@ -79,7 +79,7 @@ export const UsersStore = signalStore(
                     void router.navigate(['/registration']);
                   },
                   error: (error: HttpErrorResponse) => {
-                    const errorMessage = error.error.message;
+                    const errorMessage = error?.error?.message || error?.message;
 
                     patchState(store, { error: errorMessage });
                   },

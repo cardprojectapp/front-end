@@ -11,7 +11,10 @@ import { ProgressBarComponent } from '@features/collection/components/progress-b
 import { RaritySliderComponent } from '@features/collection/components/rarity-slider/rarity-slider.component';
 import { SearchCardsViewComponent } from '@features/collection/components/search-cards-view/search-cards-view.component';
 import { CollectionCardsStore } from '@features/collection/store/collection-cards-store/collection-cards.store';
-import { CardsLoadingMap } from '@features/collection/store/collection-cards-store/collection-cards.store.models';
+import {
+  CardsLoadingMap,
+  NonExistentCardsMap,
+} from '@features/collection/store/collection-cards-store/collection-cards.store.models';
 import { CollectionInfoStore } from '@features/collection/store/collection-info/collection-info.store';
 import { SearchCardsStore } from '@features/collection/store/search-cards/search-cards.store';
 import { CardsDisplayMode, CollectionProgressMode } from '@features/collection-settings/collection-settings.models';
@@ -97,6 +100,7 @@ export default class CollectionPage implements OnInit {
   cardsCollected: Signal<number | undefined> = this.collectionInfoStore.cards_collected;
   collectionInfoError: Signal<string | undefined> = this.collectionInfoStore.error;
   isCollectionInfoLoading: Signal<boolean> = this.collectionInfoStore.loading;
+  nonExistentCardsMap: Signal<NonExistentCardsMap | undefined> = this.collectionInfoStore.nonExistentCardsMap;
 
   isCollectionDataLoadedSuccessfully: Signal<boolean> = computed(() => {
     return !this.isCollectionInfoLoading() && this.collectionInfoError() === undefined;
@@ -119,6 +123,9 @@ export default class CollectionPage implements OnInit {
   });
 
   isImageDisplayMode = computed(() => this.cardsDisplayMode() === CardsDisplayMode.Image);
+  nonExistentCardsForCurrentRarityMap: Signal<NonExistentCardsMap | undefined> = computed(() => {
+    return this.nonExistentCardsMap()?.[this.selectedRarity()];
+  });
 
   cardsForCurrentRarity: Card[] = [];
   currentRarityCollectedCardsAmount: number = 0;
@@ -172,7 +179,14 @@ export default class CollectionPage implements OnInit {
   }
 
   markAllAsCollected(cards: Card[]): void {
-    const uncollectedCardsIds = cards.filter(card => card.status === CardStatus.NotCollected).map(card => card.id);
+    const uncollectedCardsIds = cards
+      .filter(card => {
+        const isExistedCard = this.nonExistentCardsMap()?.get(card.id) === undefined;
+        const isCardNotCollected = card.status === CardStatus.NotCollected;
+
+        return isExistedCard && isCardNotCollected;
+      })
+      .map(card => card.id);
 
     const patch = {
       ids: uncollectedCardsIds,

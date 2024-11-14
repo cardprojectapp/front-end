@@ -8,6 +8,7 @@
 } @else {
   <app-chips-list
     [cardsLoadingMap]="cardsLoadingMap()"
+    [nonExistentCardsMap]="nonExistentCardsMap()"
     [cardsList]="cards()"
     (chipClicked)="cardStatusUpdated.emit($event)" />
 }

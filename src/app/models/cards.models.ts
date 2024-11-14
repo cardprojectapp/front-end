@@ -7,8 +7,9 @@ export interface Card {
   image_url: string;
 }
 
+export type NonExistentCard = Pick<Card, 'id' | 'rarity' | 'serial_number'>;
+
 export enum CardStatus {
   Collected = 'collected',
   NotCollected = 'not_collected',
-  NotExisting = 'not_existing',
 }

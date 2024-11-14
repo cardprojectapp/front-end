@@ -2,9 +2,11 @@
   @for (card of cardsList(); track card.id) {
     <app-chip
       class="tw-m-1"
+      [class.tw-opacity-30]="nonExistentCardsMap()?.get(card.id)"
       [card]="card"
       [isLoading]="cardsLoadingMap()[card.id]"
-      (clickChip)="handleChipClick(card)" />
+      (clickChip)="handleChipClick(card)"
+       />
   } @empty {
     <div class="tw-flex tw-justify-center tw-w-max tw-py-2">
       <p>{{ 'collection.cards_not_found.message' | translate }}</p>

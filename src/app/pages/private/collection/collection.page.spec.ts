@@ -284,10 +284,11 @@ describe(CollectionPage.name, () => {
 
   describe('markAllAsCollected', () => {
     it('should build patch and trigger "update" method of collection cards store', () => {
+      component.nonExistentCardsMap = signal({ '3': {} }) as any;
       const mockCards = [
-        mock<Card>({ status: CardStatus.NotCollected }),
-        mock<Card>({ status: CardStatus.Collected }),
-        mock<Card>({ status: CardStatus.NotExisting }),
+        mock<Card>({ status: CardStatus.NotCollected, id: '1' }),
+        mock<Card>({ status: CardStatus.Collected, id: '2' }),
+        mock<Card>({ status: CardStatus.NotCollected, id: '3' }),
       ];
       const expectedPatch = {
         ids: [mockCards[0].id],
@@ -479,11 +480,17 @@ describe(CollectionPage.name, () => {
         expect(result).toBeFalsy();
       });
 
-      it('should return false if every card is collected or nonexistent', () => {
-        const cardsList: Card[] = [
-          { status: CardStatus.Collected } as Card,
-          { status: CardStatus.NotExisting } as Card,
-        ];
+      it('should return false if every card is collected', () => {
+        const cardsList: Card[] = [{ status: CardStatus.Collected } as Card];
+
+        const result = component.isSomeCardUncollected(cardsList);
+
+        expect(result).toBeFalsy();
+      });
+
+      it('should return false if every card is non existent', () => {
+        const cardsList: Card[] = [{ status: CardStatus.Collected, id: '1' } as Card];
+        component.nonExistentCardsMap = signal({ '1': {} }) as any;
 
         const result = component.isSomeCardUncollected(cardsList);
 

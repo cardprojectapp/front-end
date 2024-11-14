@@ -25,7 +25,7 @@ export const COLLECTION_CACHE_INITIAL_STATE: CollectionCache = {
     {
       id: '3',
       rarity: 'R',
-      status: CardStatus.NotExisting,
+      status: CardStatus.NotCollected,
       character_name: 'Sakura',
       serial_number: 'R-003',
       image_url: 'assets/img/test1.webp',
@@ -33,7 +33,7 @@ export const COLLECTION_CACHE_INITIAL_STATE: CollectionCache = {
     {
       id: '4',
       rarity: 'R',
-      status: CardStatus.Collected,
+      status: CardStatus.NotCollected,
       character_name: 'Kakashi',
       serial_number: 'R-004',
       image_url: 'assets/img/test1.webp',
@@ -145,7 +145,7 @@ export const COLLECTION_CACHE_INITIAL_STATE: CollectionCache = {
     {
       id: '18',
       rarity: 'HR',
-      status: CardStatus.NotExisting,
+      status: CardStatus.NotCollected,
       character_name: 'Pain',
       serial_number: 'HR-002',
       image_url: 'assets/img/test1.webp',
