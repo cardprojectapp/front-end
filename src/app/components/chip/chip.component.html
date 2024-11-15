@@ -4,7 +4,7 @@
     [class.tw-text-transparent]="isLoading()"
     [color]="card().status === status.Collected ? 'success' : 'medium'"
     [disabled]="isLoading()"
-    (click)="handleChipClick(card().id)">
+    (click)="clickChip.emit(card().id)">
     <ion-label>{{ card().serial_number }}</ion-label>
   </ion-chip>
 

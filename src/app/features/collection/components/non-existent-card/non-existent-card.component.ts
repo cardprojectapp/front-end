@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { IonCard, IonCardContent, IonLabel, IonText } from '@ionic/angular/standalone';
-import { Card } from '@models/cards.models';
+import { NonExistentCard } from '@models/cards.models';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
@@ -12,7 +12,7 @@ import { TranslateModule } from '@ngx-translate/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NonExistentCardComponent {
-  card = input.required<Card>();
+  card = input.required<NonExistentCard | undefined>();
 
   clickCard = output<string>();
 

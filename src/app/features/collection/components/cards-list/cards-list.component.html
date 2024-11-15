@@ -1,13 +1,19 @@
 <div class="tw-flex tw-flex-wrap tw-justify-around">
-  @for (card of cardsList(); track card.id; let cardNumber = $index +1) {
-    <app-card
-      class="tw-py-2"
-      [card]="card"
-      [isLoading]="cardsLoadingMap()[card.id]"
-      (clickCheckbox)="handleCheckboxClick(card)" />
+  @for (card of cardsPlacesToRender(); let i = $index; track trackByCardId(i + 1)) {
+    @let cardNumber = i + 1;
+    @let existentCard = existentCardsByNumbersMap()[cardNumber];
 
-    @if (nonExistentCardsMap()?.[i + 2]) {
-      <app-non-existent-card class="tw-py-2" [card]="card" (clickCard)="handleNonExistentCardClick()" />
+    @if (existentCard !== undefined) {
+      <app-card
+        class="tw-py-2"
+        [card]="existentCard"
+        [isLoading]="cardsLoadingMap()[existentCard.id]"
+        (clickCheckbox)="handleCheckboxClick(existentCard)" />
+    } @else {
+      <app-non-existent-card
+        class="tw-py-2"
+        [card]="nonExistentCardsMap()![cardNumber]"
+        (clickCard)="handleNonExistentCardClick()" />
     }
   } @empty {
     <div class="tw-flex tw-justify-center tw-w-max tw-py-2">

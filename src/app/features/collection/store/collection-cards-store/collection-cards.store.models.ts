@@ -2,7 +2,9 @@ import { Card, NonExistentCard } from '@models/cards.models';
 
 export type CardsLoadingMap = Record<string, boolean>;
 
-export type NonExistentCardsMap = Record<string, Record<number, NonExistentCard>>;
+export type NonExistentCardsMap = Record<number, NonExistentCard>;
+
+export type NonExistentByRarityCardsMap = Record<string, NonExistentCardsMap>;
 
 export interface CollectionCardsState {
   error: string | undefined;

@@ -1,0 +1,8 @@
+<div class="tw-relative tw-w-full">
+  <ion-chip
+    class="tw-rounded tw-m-0 tw-w-full tw-justify-center tw-opacity-30"
+    color="medium"
+    (click)="clickChip.emit(card()!.id)">
+    <ion-label>{{ card()!.serial_number }}</ion-label>
+  </ion-chip>
+</div>

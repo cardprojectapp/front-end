@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Signal, computed, inject, input, output } from '@angular/core';
 import { ChipComponent } from '@components/chip/chip.component';
 import {
   CardsLoadingMap,
@@ -10,10 +10,12 @@ import { ToastColor } from '@services/toast/toast.models';
 import { ToastService } from '@services/toast/toast.service';
 import { take } from 'rxjs';
 
+import { NonExistentChipComponent } from '../non-existent-chip/non-existent-chip.component';
+
 @Component({
   selector: 'app-chips-list',
   standalone: true,
-  imports: [ChipComponent, TranslateModule],
+  imports: [ChipComponent, TranslateModule, NonExistentChipComponent],
   templateUrl: './chips-list.component.html',
   styleUrl: './chips-list.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -27,13 +29,32 @@ export class ChipsListComponent {
   nonExistentCardsMap = input.required<NonExistentCardsMap | undefined>();
   chipClicked = output<Card>();
 
-  handleChipClick(card: Card): void {
-    if (this.nonExistentCardsMap()?.get(card.id)) {
-      const message = this.translateService.instant('collection.card_not_exists.toast');
+  existentCardsByNumbersMap = computed(() => {
+    return this.cardsList()?.reduce((memo: Record<number, Card>, card: Card) => {
+      const cardNumber = card.serial_number.split('-').at(-1);
+      memo[Number(cardNumber)] = card;
 
-      this.toastService.open$(message, ToastColor.Medium).pipe(take(1)).subscribe();
-    } else {
-      this.chipClicked.emit(card);
-    }
+      return memo;
+    }, {});
+  });
+
+  cardsPlacesToRender: Signal<void[]> = computed(() => {
+    if (this.cardsList()?.length === 0) return [];
+
+    const nonExistentCardsAmout = Object.values(this.nonExistentCardsMap() ?? {}).length;
+    const existedCardsAmount = this.cardsList()!.length;
+    const cardsTotal = nonExistentCardsAmout + existedCardsAmount;
+
+    return Array(cardsTotal);
+  });
+
+  trackByCardId(cardNumber: number) {
+    return this.nonExistentCardsMap()?.[cardNumber]?.id ?? this.existentCardsByNumbersMap()?.[cardNumber].id;
+  }
+
+  handleNonExistentChipClick(): void {
+    const message = this.translateService.instant('collection.card_not_exists.toast');
+
+    this.toastService.open$(message, ToastColor.Medium).pipe(take(1)).subscribe();
   }
 }

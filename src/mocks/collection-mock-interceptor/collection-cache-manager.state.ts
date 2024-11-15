@@ -15,27 +15,11 @@ export const COLLECTION_CACHE_INITIAL_STATE: CollectionCache = {
       image_url: 'assets/img/test1.webp',
     },
     {
-      id: '2',
-      rarity: 'R',
-      status: CardStatus.NotCollected,
-      character_name: 'Naruto',
-      serial_number: 'R-002',
-      image_url: 'assets/img/test2.webp',
-    },
-    {
       id: '3',
       rarity: 'R',
       status: CardStatus.NotCollected,
       character_name: 'Sakura',
       serial_number: 'R-003',
-      image_url: 'assets/img/test1.webp',
-    },
-    {
-      id: '4',
-      rarity: 'R',
-      status: CardStatus.NotCollected,
-      character_name: 'Kakashi',
-      serial_number: 'R-004',
       image_url: 'assets/img/test1.webp',
     },
     {
@@ -68,14 +52,6 @@ export const COLLECTION_CACHE_INITIAL_STATE: CollectionCache = {
       status: CardStatus.Collected,
       character_name: 'Kakashi5',
       serial_number: 'R-008',
-      image_url: 'assets/img/test1.webp',
-    },
-    {
-      id: '9',
-      rarity: 'SR',
-      status: CardStatus.NotCollected,
-      character_name: 'Sasuke',
-      serial_number: 'SR-001',
       image_url: 'assets/img/test1.webp',
     },
     {

@@ -55,7 +55,7 @@
       [error]="collectionCardsError()"
       [isLoading]="isLoadingCollectionRequiredData()"
       [cardsLoadingMap]="cardsLoadingMap()"
-      [nonExistentCardsMap]="nonExistentCardsMap()"
+      [nonExistentCardsMap]="nonExistentCardsForCurrentRarityMap()"
       [cards]="cardsForCurrentRarity"
       (cardStatusUpdated)="updateCardStatus($event)"
       (tryAgainClicked)="reFetchCardsByRarity()" />
@@ -64,7 +64,7 @@
       [error]="collectionCardsError()"
       [isLoading]="isLoadingCollectionRequiredData()"
       [cardsLoadingMap]="cardsLoadingMap()"
-      [nonExistentCardsMap]="nonExistentCardsMap()"
+      [nonExistentCardsMap]="nonExistentCardsForCurrentRarityMap()"
       [cards]="cardsForCurrentRarity"
       (cardStatusUpdated)="updateCardStatus($event)"
       (tryAgainClicked)="reFetchCardsByRarity()" />

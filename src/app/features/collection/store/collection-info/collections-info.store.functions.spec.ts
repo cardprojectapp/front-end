@@ -1,3 +1,1 @@
-describe('CollectionInfoStoreFunctions', () => {
-  
-})
+describe('CollectionInfoStoreFunctions', () => {});

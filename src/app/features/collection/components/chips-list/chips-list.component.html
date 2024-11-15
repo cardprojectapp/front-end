@@ -1,12 +1,20 @@
 <div class="tw-grid tw-justify-center tw-grid-cols-chips-sheet">
-  @for (card of cardsList(); track card.id) {
-    <app-chip
-      class="tw-m-1"
-      [class.tw-opacity-30]="nonExistentCardsMap()?.get(card.id)"
-      [card]="card"
-      [isLoading]="cardsLoadingMap()[card.id]"
-      (clickChip)="handleChipClick(card)"
-       />
+  @for (card of cardsPlacesToRender(); let i = $index; track trackByCardId(i + 1)) {
+    @let cardNumber = i + 1;
+    @let existentCard = existentCardsByNumbersMap()[cardNumber];
+
+    @if (existentCard !== undefined) {
+      <app-chip
+        class="tw-m-1"
+        [card]="existentCard"
+        [isLoading]="cardsLoadingMap()[existentCard.id]"
+        (clickChip)="chipClicked.emit(existentCard)" />
+    } @else {
+      <app-non-existent-chip
+        class="tw-py-2"
+        [card]="nonExistentCardsMap()![cardNumber]"
+        (clickChip)="handleNonExistentChipClick()" />
+    }
   } @empty {
     <div class="tw-flex tw-justify-center tw-w-max tw-py-2">
       <p>{{ 'collection.cards_not_found.message' | translate }}</p>

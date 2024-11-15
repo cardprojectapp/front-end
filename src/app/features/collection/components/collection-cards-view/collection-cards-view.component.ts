@@ -1,5 +1,8 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
-import { CardsLoadingMap, NonExistentCardsMap } from '@features/collection/store/collection-cards-store/collection-cards.store.models';
+import {
+  CardsLoadingMap,
+  NonExistentCardsMap,
+} from '@features/collection/store/collection-cards-store/collection-cards.store.models';
 import { IonSpinner } from '@ionic/angular/standalone';
 import { Card } from '@models/cards.models';
 import { TranslateModule } from '@ngx-translate/core';
