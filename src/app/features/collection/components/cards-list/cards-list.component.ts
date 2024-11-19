@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, Signal, computed, inject, input, output } from '@angular/core';
 import { CardComponent } from '@components/card/card.component';
+import { CollectionFunctions } from '@features/collection/collection.functions';
 import {
   CardsLoadingMap,
   NonExistentCardsMap,
@@ -29,27 +30,22 @@ export class CardsListComponent {
   nonExistentCardsMap = input<NonExistentCardsMap | undefined>();
   cardCheckboxClicked = output<Card>();
 
-  existentCardsByNumbersMap: Signal<Record<number, Card>> = computed(() => {
-    return this.cardsList()?.reduce((memo: Record<number, Card>, card: Card) => {
-      const cardNumber = card.serial_number.split('-').at(-1);
-      memo[Number(cardNumber)] = card;
-
-      return memo;
-    }, {});
+  existentCardsByNumbersMap = computed(() => {
+    return CollectionFunctions.buildExistentCardsByNumbersMap(this.cardsList());
   });
 
   cardsPlacesToRender: Signal<void[]> = computed(() => {
-    if (this.cardsList()?.length === 0) return [];
+    const nonExistentCards = Object.values(this.nonExistentCardsMap() ?? {});
 
-    const nonExistentCardsAmout = Object.values(this.nonExistentCardsMap() ?? {}).length;
-    const existedCardsAmount = this.cardsList()!.length;
-    const cardsTotal = nonExistentCardsAmout + existedCardsAmount;
-
-    return Array(cardsTotal);
+    return CollectionFunctions.buildCardsPlacesToRender(this.cardsList(), nonExistentCards);
   });
 
   trackByCardId(cardNumber: number) {
-    return this.nonExistentCardsMap()?.[cardNumber]?.id ?? this.existentCardsByNumbersMap()?.[cardNumber].id;
+    return CollectionFunctions.getCardEntityId(
+      this.existentCardsByNumbersMap(),
+      this.nonExistentCardsMap(),
+      cardNumber,
+    );
   }
 
   handleNonExistentCardClick(): void {

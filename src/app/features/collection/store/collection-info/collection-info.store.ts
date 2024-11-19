@@ -9,7 +9,7 @@ import { CollectionInfoDto, UpdateCardsResponseData } from '../../collection.mod
 import { CollectionApiService } from '../../services/collection-api.service';
 
 import { COLLECTION_INFO_INITIAL_STATE } from './collection-info.state';
-import { CollectionInfoStoreFunctions } from './collections-info.store.functions';
+import { CollectionInfoStoreFunctions } from './collection-info.store.functions';
 
 export const CollectionInfoStore = signalStore(
   { providedIn: 'root' },

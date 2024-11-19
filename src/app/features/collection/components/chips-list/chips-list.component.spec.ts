@@ -1,4 +1,5 @@
 import { signal } from '@angular/core';
+import { CollectionFunctions } from '@features/collection/collection.functions';
 import { TranslateService } from '@ngx-translate/core';
 import { classWithProviders } from '@ngx-unit-test/inject-mocks';
 import { ToastColor } from '@services/toast/toast.models';
@@ -32,6 +33,44 @@ describe(ChipsListComponent.name, () => {
           useValue: toastServiceMock,
         },
       ],
+    });
+  });
+
+  describe('existentCardsByNumbersMap', () => {
+    it('should trigger "buildExistentCardsByNumbersMap" function whjen called', () => {
+      const spy = jest.spyOn(CollectionFunctions, 'buildExistentCardsByNumbersMap');
+      component.cardsList = signal([]) as any;
+
+      component.existentCardsByNumbersMap();
+
+      expect(spy).toHaveBeenCalledWith([]);
+      expect(spy).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('cardsPlacesToRender', () => {
+    it('should trigger "buildCardsPlacesToRender" function whjen called', () => {
+      const spy = jest.spyOn(CollectionFunctions, 'buildCardsPlacesToRender');
+      component.nonExistentCardsMap = signal({}) as any;
+      component.cardsList = signal([]) as any;
+
+      component.cardsPlacesToRender();
+
+      expect(spy).toHaveBeenCalledWith([], []);
+      expect(spy).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('trackByCardId', () => {
+    it('should trigger "getCardEntityId" function when called', () => {
+      const spy = jest.spyOn(CollectionFunctions, 'getCardEntityId');
+      component.existentCardsByNumbersMap = signal({});
+      component.nonExistentCardsMap = signal({}) as any;
+
+      component.trackByCardId(1);
+
+      expect(spy).toHaveBeenCalledWith({}, {}, 1);
+      expect(spy).toHaveBeenCalledTimes(1);
     });
   });
 

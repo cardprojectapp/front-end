@@ -291,7 +291,7 @@ describe(CollectionPage.name, () => {
         mock<Card>({ status: CardStatus.NotCollected, id: '3' }),
       ];
       const expectedPatch = {
-        ids: [mockCards[0].id],
+        ids: ['1', '3'],
         changes: {
           status: CardStatus.Collected,
         },

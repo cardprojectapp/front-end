@@ -7,7 +7,7 @@ import { MockProxy, mock } from 'jest-mock-extended';
 import { of, throwError } from 'rxjs';
 
 import { CollectionInfoStore } from './collection-info.store';
-import { CollectionInfoStoreFunctions } from './collections-info.store.functions';
+import { CollectionInfoStoreFunctions } from './collection-info.store.functions';
 
 jest.mock('@ngrx/signals', () => {
   const actual = jest.requireActual('@ngrx/signals');

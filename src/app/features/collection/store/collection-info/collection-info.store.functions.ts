@@ -8,10 +8,10 @@ export namespace CollectionInfoStoreFunctions {
 
     return cards.reduce((memo: NonExistentByRarityCardsMap, card: NonExistentCard) => {
       const { rarity, serial_number } = card;
-      const [, cardNummer] = serial_number.split('-');
+      const cardNumber = serial_number.split('-').at(-1);
       const cardsForRarity = memo[rarity] ?? {};
 
-      memo[rarity] = { ...cardsForRarity, [Number(cardNummer)]: card };
+      memo[rarity] = { ...cardsForRarity, [Number(cardNumber)]: card };
       return memo;
     }, {});
   };
